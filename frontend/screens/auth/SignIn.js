@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { styles } from "../../styles/auth.styles";
 import { useState } from "react";
+import AuthHeader from "../../components/auth/AuthHeader";
 
 const SignIn = ({ navigation }) => {
   const initialState = {
@@ -39,6 +40,10 @@ const SignIn = ({ navigation }) => {
     navigation.navigate("SignUp");
   };
 
+  const handleBackButton = () => {
+    navigation.navigate("SignUp");
+  };
+
   const handleEmailVerification = () => {
     navigation.navigate("EmailVerification");
   };
@@ -49,7 +54,7 @@ const SignIn = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Sign In</Text>
+      <AuthHeader title="Sign In" onPress={handleBackButton} />
       <View style={styles.formContainer}>
         <View>
           <Text style={styles.label}>

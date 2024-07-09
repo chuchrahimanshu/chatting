@@ -7,13 +7,25 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-start",
     backgroundColor: "#f1f1f1",
   },
-  header: {
-    marginBottom: 30,
-    paddingTop: 60,
-    alignSelf: "flex-start",
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
     paddingHorizontal: 30,
+    position: "relative",
+  },
+  header: {
+    paddingTop: 60,
+    marginBottom: 30,
+    alignSelf: "flex-start",
     fontSize: 22,
     fontWeight: "600",
+  },
+  headerIcon: {
+    position: "absolute",
+    bottom: 29,
+    right: 30,
   },
   formContainer: {
     backgroundColor: "#f1f1f1",

@@ -8,8 +8,9 @@ import {
 } from "react-native";
 import { styles } from "../../styles/auth.styles";
 import { useState } from "react";
+import AuthHeader from "../../components/auth/AuthHeader";
 
-const ChangePassword = () => {
+const ChangePassword = ({ navigation }) => {
   const initialState = {
     password: "",
     confirmPassword: "",
@@ -38,9 +39,13 @@ const ChangePassword = () => {
     }
   };
 
+  const handleBackButton = () => {
+    navigation.navigate("ForgetPassword");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Change Password</Text>
+      <AuthHeader title="Change Password" onPress={handleBackButton} />
       <View style={styles.formContainer}>
         <View>
           <Text style={styles.label}>

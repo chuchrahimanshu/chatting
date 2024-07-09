@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { styles } from "../../styles/auth.styles";
 import { useState } from "react";
+import AuthHeader from "../../components/auth/AuthHeader";
 
 const SignUp = ({ navigation }) => {
   const initialState = {
@@ -54,7 +55,7 @@ const SignUp = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Sign Up</Text>
+      <AuthHeader title="Sign Up" showIcon={false} />
       <View style={styles.formContainer}>
         <View>
           <View style={styles.inputContainer}>

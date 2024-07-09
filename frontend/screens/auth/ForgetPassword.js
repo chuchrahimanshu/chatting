@@ -2,6 +2,7 @@ import { Alert, Pressable, SafeAreaView, Text, View } from "react-native";
 import { styles } from "../../styles/auth.styles";
 import { useEffect, useRef, useState } from "react";
 import OTPField from "../../components/forms/OTPField";
+import AuthHeader from "../../components/auth/AuthHeader";
 
 const ForgetPassword = ({ navigation }) => {
   const inputRef = useRef(null);
@@ -41,13 +42,17 @@ const ForgetPassword = ({ navigation }) => {
     setOTP([...updatedOTP]);
   };
 
+  const handleBackButton = () => {
+    navigation.navigate("SignIn");
+  };
+
   useEffect(() => {
     inputRef.current?.focus();
   }, [activeOTPIndex]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Forget Password</Text>
+      <AuthHeader title="Forget Password" onPress={handleBackButton} />
       <View style={styles.formContainer}>
         <View>
           <Text style={styles.label}>

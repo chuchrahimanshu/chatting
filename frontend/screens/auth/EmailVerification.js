@@ -2,8 +2,9 @@ import { Alert, Pressable, SafeAreaView, Text, View } from "react-native";
 import { styles } from "../../styles/auth.styles";
 import { useEffect, useRef, useState } from "react";
 import OTPField from "../../components/forms/OTPField";
+import AuthHeader from "../../components/auth/AuthHeader";
 
-const EmailVerification = () => {
+const EmailVerification = ({ navigation }) => {
   const inputRef = useRef(null);
   const otpFields = new Array(6).fill("");
 
@@ -37,13 +38,17 @@ const EmailVerification = () => {
     setOTP([...updatedOTP]);
   };
 
+  const handleBackButton = () => {
+    navigation.navigate("SignIn");
+  };
+
   useEffect(() => {
     inputRef.current?.focus();
   }, [activeOTPIndex]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Email Verification</Text>
+      <AuthHeader title="Email Verification" onPress={handleBackButton} />
       <View style={styles.formContainer}>
         <View>
           <Text style={styles.label}>
