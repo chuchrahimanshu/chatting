@@ -41,6 +41,38 @@ export const signUp = async (req, res) => {
 
 export const signIn = async (req, res) => {
   try {
+    const { email, password } = req.body;
+    if (!email?.trim() || !password?.trim()) {
+      return res.status(400).json({
+        message: "Please provide all required details",
+      });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        message: "Invalid Email / Password",
+      });
+    }
+
+    const isPasswordValid = await user.validatePassword(password);
+    if (!isPasswordValid) {
+      return res.status(404).json({
+        message: "Invalid Email / Password",
+      });
+    }
+
+    const accessToken = await user.generateAccessToken();
+    const refreshToken = await user.generateRefreshToken();
+
+    user.refreshToken.token = refreshToken;
+    user.refreshToken.createdAt = new Date(Date.now());
+    await user.save();
+
+    return res.status(200).json({
+      message: "Session created successfully",
+      accessToken,
+    });
   } catch (error) {
     return res.status(500).json({
       message: "Error - Auth Module - Sign In Controller",

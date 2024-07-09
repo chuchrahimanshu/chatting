@@ -72,7 +72,7 @@ userSchema.methods.validatePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 userSchema.methods.generateAccessToken = async function () {
-  return await JWT.sign(
+  const accessToken = await JWT.sign(
     {
       _id: this._id,
       email: this.email,
@@ -82,9 +82,13 @@ userSchema.methods.generateAccessToken = async function () {
       expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRY,
     }
   );
+
+  const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS?.toString();
+  const salt = await bcrypt.genSalt(SALT_ROUNDS);
+  return await bcrypt.hash(accessToken, salt);
 };
 userSchema.methods.generateRefreshToken = async function () {
-  return await JWT.sign(
+  const refreshToken = await JWT.sign(
     {
       _id: this._id,
     },
@@ -93,6 +97,10 @@ userSchema.methods.generateRefreshToken = async function () {
       expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRY,
     }
   );
+
+  const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS?.toString();
+  const salt = await bcrypt.genSalt(SALT_ROUNDS);
+  return await bcrypt.hash(refreshToken, salt);
 };
 
 // Exporting Modal
