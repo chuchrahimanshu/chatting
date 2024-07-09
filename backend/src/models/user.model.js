@@ -1,6 +1,7 @@
 // Import Section
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import JWT from "jsonwebtoken";
 
 // Schema Section
 const userSchema = new mongoose.Schema(
@@ -24,6 +25,14 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+    },
+    refreshToken: {
+      token: {
+        type: String,
+      },
+      createdAt: {
+        type: Date,
+      },
     },
   },
   {
@@ -57,6 +66,34 @@ userSchema.pre("save", async function (next) {
 
   next();
 });
+
+// Schema Methods Section
+userSchema.methods.validatePassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+userSchema.methods.generateAccessToken = async function () {
+  return await JWT.sign(
+    {
+      _id: this._id,
+      email: this.email,
+    },
+    process.env.JWT_ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRY,
+    }
+  );
+};
+userSchema.methods.generateRefreshToken = async function () {
+  return await JWT.sign(
+    {
+      _id: this._id,
+    },
+    process.env.JWT_REFRESH_TOKEN_SECRET,
+    {
+      expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRY,
+    }
+  );
+};
 
 // Exporting Modal
 const User = mongoose.model("User", userSchema);
