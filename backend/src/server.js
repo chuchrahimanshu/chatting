@@ -1,6 +1,8 @@
 // Import Section
 import express from "express";
 import "dotenv/config";
+import "./config/database.config.js";
+import "./config/nodemailer.config.js";
 import router from "./routes/index.routes.js";
 
 // Configuration Section
