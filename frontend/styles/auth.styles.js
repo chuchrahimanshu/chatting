@@ -99,4 +99,9 @@ export const styles = StyleSheet.create({
     fontSize: 25,
     width: 13,
   },
+  notiLabel: {
+    color: "red",
+    fontSize: 11,
+    marginTop: 5,
+  },
 });

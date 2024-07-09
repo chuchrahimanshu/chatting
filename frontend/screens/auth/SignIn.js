@@ -39,6 +39,14 @@ const SignIn = ({ navigation }) => {
     navigation.navigate("SignUp");
   };
 
+  const handleEmailVerification = () => {
+    navigation.navigate("EmailVerification");
+  };
+
+  const handleTFA = () => {
+    navigation.navigate("TFA");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>Sign In</Text>
@@ -84,6 +92,14 @@ const SignIn = ({ navigation }) => {
               onPress={handleFormSubmit}>
               <Text style={styles.buttonText}>Sign In</Text>
             </Pressable>
+          </View>
+          <View style={styles.flexBetween}>
+            <Text style={styles.link} onPress={handleEmailVerification}>
+              Email Verification
+            </Text>
+            <Text style={styles.link} onPress={handleTFA}>
+              TFA
+            </Text>
           </View>
         </View>
       </View>
