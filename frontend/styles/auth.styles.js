@@ -7,10 +7,17 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-start",
     backgroundColor: "#f1f1f1",
   },
+  header: {
+    marginBottom: 30,
+    paddingTop: 60,
+    alignSelf: "flex-start",
+    paddingHorizontal: 30,
+    fontSize: 22,
+    fontWeight: "600",
+  },
   formContainer: {
     backgroundColor: "#f1f1f1",
     paddingHorizontal: 30,
-    paddingTop: 30,
     borderRadius: 20,
     width: "100%",
   },
@@ -75,8 +82,21 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   otpContainer: {
-    flexDirection: "row",
+    marginTop: 20,
     marginBottom: 10,
+    flexDirection: "row",
     justifyContent: "space-between",
+  },
+  otpBox: {
+    height: 44,
+    width: 44,
+    borderRadius: 10,
+    backgroundColor: "#d2d2d2",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  otpInput: {
+    fontSize: 25,
+    width: 13,
   },
 });

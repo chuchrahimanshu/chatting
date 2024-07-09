@@ -21,6 +21,7 @@ const SignIn = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.header}>Sign In</Text>
       <Formik
         initialValues={initialState}
         onSubmit={handleFormSubmit}

@@ -16,10 +16,13 @@ const SignUp = ({ navigation }) => {
     navigation.navigate("SignIn");
   };
 
-  const handleFormSubmit = (values) => {};
+  const handleFormSubmit = (values) => {
+    console.log(values);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.header}>Sign Up</Text>
       <Formik
         initialValues={initialState}
         onSubmit={handleFormSubmit}
