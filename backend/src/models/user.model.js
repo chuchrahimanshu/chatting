@@ -1,5 +1,6 @@
 // Import Section
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 // Schema Section
 const userSchema = new mongoose.Schema(
@@ -31,7 +32,7 @@ const userSchema = new mongoose.Schema(
 );
 
 // Pre - Save Events Section
-userSchema.pre("save", function (next) {
+userSchema.pre("save", async function (next) {
   if (this.isModified("firstName")) {
     this.firstName =
       this.firstName.slice(0, 1).toUpperCase() +
@@ -47,6 +48,13 @@ userSchema.pre("save", function (next) {
   if (this.isModified("email")) {
     this.email = this.email.toLowerCase();
   }
+
+  if (this.isModified("password")) {
+    const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS?.toString();
+    const salt = await bcrypt.genSalt(SALT_ROUNDS);
+    this.password = await bcrypt.hash(this.password, salt);
+  }
+
   next();
 });
 
