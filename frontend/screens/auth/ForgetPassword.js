@@ -68,10 +68,9 @@ const ForgetPassword = ({ navigation }) => {
               />
             ))}
           </View>
-          <View style={[styles.flexBetween, { alignSelf: "center" }]}>
-            <Text style={styles.link} onPress={handleSignInNavigation}>
-              Wrong email address?
-            </Text>
+          <View style={styles.flexBetween}>
+            <Text style={styles.link}>Resend OTP</Text>
+            <Text style={styles.navigateText}>00:00</Text>
           </View>
           <View style={styles.buttonContainer}>
             <Pressable
@@ -79,6 +78,11 @@ const ForgetPassword = ({ navigation }) => {
               onPress={handleFormSubmit}>
               <Text style={styles.buttonText}>Verify OTP</Text>
             </Pressable>
+          </View>
+          <View style={[styles.flexBetween, { alignSelf: "center" }]}>
+            <Text style={styles.link} onPress={handleSignInNavigation}>
+              Wrong email address?
+            </Text>
           </View>
         </View>
       </View>
