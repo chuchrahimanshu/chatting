@@ -30,11 +30,6 @@ export const signInValidationSchema = yup.object({
 });
 
 export const forgetPasswordValidationSchema = yup.object({
-  email: yup
-    .string()
-    .trim("Email is missing!")
-    .required("Please provide a valid email address")
-    .email("Please provide a valid email address"),
   otp: yup
     .string()
     .trim("OTP is missing!")
