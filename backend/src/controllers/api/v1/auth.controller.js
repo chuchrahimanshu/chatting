@@ -83,6 +83,26 @@ export const signIn = async (req, res) => {
 
 export const signOut = async (req, res) => {
   try {
+    const { userid } = req.params;
+    if (!userid?.trim()) {
+      return res.status(500).json({
+        message: "Internal server error, No userid found",
+      });
+    }
+
+    const user = await User.findById(userid);
+    if (!user) {
+      return res.status(409).json({
+        message: "Un-Authorized Access Found!",
+      });
+    }
+
+    user.refreshToken.token = "";
+    await user.save();
+
+    return res.status(200).json({
+      message: "User signout successfully",
+    });
   } catch (error) {
     return res.status(500).json({
       message: "Error - Auth Module - Sign Out Controller",
