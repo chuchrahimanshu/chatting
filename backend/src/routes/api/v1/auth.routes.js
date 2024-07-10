@@ -9,6 +9,7 @@ import {
   createTFASession,
   verifyForgetPasswordToken,
 } from "../../../controllers/api/v1/auth.controller.js";
+import { isAuthenticated } from "../../../middlewares/auth.middleware.js";
 
 // Configuration Section
 const router = express.Router();
@@ -20,9 +21,9 @@ router.route("/verify/token/forget-password").post(verifyForgetPasswordToken);
 router.route("/change-password").post(changePassword);
 
 // Authenticated Routes Section
-router.route("/tfa/session").post(createTFASession);
+router.route("/tfa/session").post(isAuthenticated, createTFASession);
+router.route("/verify/email").post(isAuthenticated, emailVerification);
 router.route("/sign-out").get(signOut);
-router.route("/verify/email").post(emailVerification);
 
 // Export Section
 export default router;
