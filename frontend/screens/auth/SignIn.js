@@ -9,8 +9,12 @@ import {
 import { styles } from "../../styles/auth.styles";
 import { useState } from "react";
 import AuthHeader from "../../components/auth/AuthHeader";
+import { useDispatch } from "react-redux";
+import { signIn } from "../../redux/auth/auth.slice";
 
 const SignIn = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   const initialState = {
     email: "",
     password: "",
@@ -21,7 +25,7 @@ const SignIn = ({ navigation }) => {
   const handleInputChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
   };
-  const handleFormSubmit = () => {
+  const handleFormSubmit = async () => {
     const { email, password } = formData;
 
     if (!email?.trim() || !password?.trim()) {
@@ -29,6 +33,29 @@ const SignIn = ({ navigation }) => {
         "Missing Values!",
         "Please provide all required details."
       );
+    }
+
+    const apiResult = await dispatch(
+      signIn({
+        bodyData: {
+          email,
+          password,
+        },
+      })
+    );
+
+    if (apiResult?.meta?.requestStatus === "fulfilled") {
+      setFormData(initialState);
+      Alert.alert(
+        "Sign In Success!",
+        "You have successfully signed in and now redirecting to home"
+      );
+
+      // TODO: Add Home Page Redirection Here
+      // navigation.navigate("SignIn");
+    }
+    if (apiResult?.meta?.requestStatus === "rejected") {
+      Alert.alert("Sign Up Failed!", apiResult.payload);
     }
   };
 

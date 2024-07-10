@@ -22,6 +22,23 @@ export const signUp = createAsyncThunk(
   }
 );
 
+export const signIn = createAsyncThunk(
+  "auth/signIn",
+  async (apiData, thunkAPI) => {
+    try {
+      return await authService.signIn(apiData);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,

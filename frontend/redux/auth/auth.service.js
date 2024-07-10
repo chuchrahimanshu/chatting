@@ -8,8 +8,20 @@ const signUp = async ({ bodyData }) => {
   return response.data;
 };
 
+const signIn = async ({ bodyData }) => {
+  const response = await axios.post(AUTH_URL + `/sign-in`, bodyData);
+  return response.data;
+};
+
+// TODO: Create Home Page and add Sign Out Button
+// const signOut = async () => {
+//   const response = await axios.get(AUTH_URL + `/sign-out`);
+//   return response.data;
+// };
+
 const authService = {
   signUp,
+  signIn,
 };
 
 export default authService;
