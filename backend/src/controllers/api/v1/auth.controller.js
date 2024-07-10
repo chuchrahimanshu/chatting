@@ -141,6 +141,16 @@ export const verifyForgetPasswordToken = async (req, res) => {
       });
     }
 
+    const tokenCreatedAt = token.forgetPassword.createdAt;
+    const validDate = new Date(tokenCreatedAt.getTime() + 30 * 60 * 1000);
+    const currentTime = Date.now();
+
+    if (currentTime > validDate) {
+      return res.status(400).json({
+        message: "OTP expired, Please regenerate the OTP",
+      });
+    }
+
     token.forgetPassword.status = true;
     await token.save();
 
@@ -227,6 +237,16 @@ export const createTFASession = async (req, res) => {
       });
     }
 
+    const tokenCreatedAt = token.tfa.createdAt;
+    const validDate = new Date(tokenCreatedAt.getTime() + 30 * 60 * 1000);
+    const currentTime = Date.now();
+
+    if (currentTime > validDate) {
+      return res.status(400).json({
+        message: "OTP expired, Please regenerate the OTP",
+      });
+    }
+
     const accessToken = await user.generateAccessToken();
     const refreshToken = await user.generateRefreshToken();
 
@@ -273,6 +293,16 @@ export const emailVerification = async (req, res) => {
     if (!token.validateEmailVerificationToken(otp)) {
       return res.status(400).json({
         message: "Please provide a valid OTP",
+      });
+    }
+
+    const tokenCreatedAt = token.emailVerification.createdAt;
+    const validDate = new Date(tokenCreatedAt.getTime() + 30 * 60 * 1000);
+    const currentTime = Date.now();
+
+    if (currentTime > validDate) {
+      return res.status(400).json({
+        message: "OTP expired, Please regenerate the OTP",
       });
     }
 
