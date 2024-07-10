@@ -1,5 +1,6 @@
 import { Token } from "../../../models/token.model.js";
 import { User } from "../../../models/user.model.js";
+import { generateSixDigitOTPToken } from "../../../utils/helper.util.js";
 
 export const signUp = async (req, res) => {
   try {
@@ -64,7 +65,14 @@ export const signIn = async (req, res) => {
     }
 
     if (user.isTFAEnabled === true) {
-      // TODO: Send OTP Email Here
+      const randomOTP = generateSixDigitOTPToken();
+      const token = await Token.create({
+        user: user._id,
+      });
+
+      token.tfa.token = randomOTP;
+      token.tfa.createdAt = new Date(Date.now());
+      await token.save();
       return res.status(200).json({
         message: "Validate your OTP sent on registered email address",
       });
