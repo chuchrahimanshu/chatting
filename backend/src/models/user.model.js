@@ -34,6 +34,19 @@ const userSchema = new mongoose.Schema(
         type: Date,
       },
     },
+    twoFactorAuthentication: {
+      token: {
+        type: String,
+      },
+      createdAt: {
+        type: Date,
+      },
+      isEnabled: {
+        type: Boolean,
+        deafult: false,
+      },
+      status: {},
+    },
   },
   {
     timestamps: true,

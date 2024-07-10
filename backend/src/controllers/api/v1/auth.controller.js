@@ -63,6 +63,13 @@ export const signIn = async (req, res) => {
       });
     }
 
+    if (user.twoFactorAuthentication.isEnabled === true) {
+      // TODO: Send OTP Email Here
+      return res.status(200).json({
+        message: "Validate your OTP sent on registered email address",
+      });
+    }
+
     const accessToken = await user.generateAccessToken();
     const refreshToken = await user.generateRefreshToken();
 
@@ -112,6 +119,8 @@ export const signOut = async (req, res) => {
   }
 };
 
+// TODO: Verify Forget Password Token
+
 export const changePassword = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -128,7 +137,7 @@ export const changePassword = async (req, res) => {
       });
     }
 
-    const token = await Token.findById({ user: user._id });
+    const token = await Token.findOne({ user: user._id });
     if (!token) {
       return res.status(404).json({
         message: "Please validate your identity using OTP",
@@ -155,8 +164,52 @@ export const changePassword = async (req, res) => {
   }
 };
 
-export const twoFactorAuthentication = async (req, res) => {
+export const createTFASession = async (req, res) => {
   try {
+    const { otp } = req.body;
+    const { userid } = req.params;
+    if (!userid?.trim()) {
+      return res.status(500).json({
+        message: "Internal server error, No userid found",
+      });
+    }
+    if (!otp?.trim()) {
+      return res.status(400).json({
+        message: "Please provide a valid OTP",
+      });
+    }
+
+    const user = await User.findById(userid);
+    if (!user) {
+      return res.status(409).json({
+        message: "Un-Authorized Access Found!",
+      });
+    }
+
+    const token = await Token.findOne({ user: user._id });
+    if (!token) {
+      return res.status(404).json({
+        message: "Please validate your identity using OTP",
+      });
+    }
+
+    if (!token.validateTFAToken(otp)) {
+      return res.status(400).json({
+        message: "Please provide a valid OTP",
+      });
+    }
+
+    const accessToken = await user.generateAccessToken();
+    const refreshToken = await user.generateRefreshToken();
+
+    user.refreshToken.token = refreshToken;
+    user.refreshToken.createdAt = new Date(Date.now());
+    await user.save();
+
+    return res.status(200).json({
+      message: "Session created successfully",
+      accessToken,
+    });
   } catch (error) {
     return res.status(500).json({
       message: "Error - Auth Module - Verify TFA Controller",
