@@ -67,7 +67,6 @@ const ForgetPassword = ({ navigation }) => {
                 key={index}
                 ref={activeOTPIndex === index ? inputRef : null}
                 onKeyPress={({ nativeEvent }) => {
-                  console.log(nativeEvent.key);
                   handleOTPChange(nativeEvent.key, index);
                 }}
                 activeOTPIndex={activeOTPIndex}

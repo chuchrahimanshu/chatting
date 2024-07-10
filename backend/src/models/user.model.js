@@ -65,7 +65,6 @@ userSchema.pre("save", async function (next) {
   if (this.isModified("email")) {
     this.email = this.email.toLowerCase();
   }
-  console.log("I am in the backedn");
   if (this.isModified("password")) {
     const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS?.toString();
     const salt = await bcrypt.genSalt(parseInt(SALT_ROUNDS));
