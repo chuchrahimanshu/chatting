@@ -52,6 +52,7 @@ const SignIn = ({ navigation }) => {
       );
 
       // TODO: Add Home Page Redirection Here
+      // TODO: Also add data to async storage
       // navigation.navigate("SignIn");
     }
     if (apiResult?.meta?.requestStatus === "rejected") {
