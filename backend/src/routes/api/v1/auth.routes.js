@@ -20,9 +20,9 @@ router.route("/verify/token/forget-password").post(verifyForgetPasswordToken);
 router.route("/change-password").post(changePassword);
 
 // Authenticated Routes Section
-router.route("/tfa/session/:userid").post(createTFASession);
-router.route("/sign-out/:userid").get(signOut);
-router.route("/verify/email/:userid").post(emailVerification);
+router.route("/tfa/session").post(createTFASession);
+router.route("/sign-out").get(signOut);
+router.route("/verify/email").post(emailVerification);
 
 // Export Section
 export default router;

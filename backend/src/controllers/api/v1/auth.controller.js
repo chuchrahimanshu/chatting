@@ -91,14 +91,7 @@ export const signIn = async (req, res) => {
 
 export const signOut = async (req, res) => {
   try {
-    const { userid } = req.params;
-    if (!userid?.trim()) {
-      return res.status(500).json({
-        message: "Internal server error, No userid found",
-      });
-    }
-
-    const user = await User.findById(userid);
+    const user = await User.findById(req.user._id);
     if (!user) {
       return res.status(409).json({
         message: "Un-Authorized Access Found!",
@@ -208,19 +201,13 @@ export const changePassword = async (req, res) => {
 export const createTFASession = async (req, res) => {
   try {
     const { otp } = req.body;
-    const { userid } = req.params;
-    if (!userid?.trim()) {
-      return res.status(500).json({
-        message: "Internal server error, No userid found",
-      });
-    }
     if (!otp?.trim()) {
       return res.status(400).json({
         message: "Please provide a valid OTP",
       });
     }
 
-    const user = await User.findById(userid);
+    const user = await User.findById(req.user._id);
     if (!user) {
       return res.status(409).json({
         message: "Un-Authorized Access Found!",
@@ -261,6 +248,40 @@ export const createTFASession = async (req, res) => {
 
 export const emailVerification = async (req, res) => {
   try {
+    const { otp } = req.body;
+
+    if (!otp?.trim()) {
+      return res.status(400).json({
+        message: "Please provide a valid OTP",
+      });
+    }
+
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(409).json({
+        message: "Un-Authorized Access Found!",
+      });
+    }
+
+    const token = await Token.findOne({ user: user._id });
+    if (!token) {
+      return res.status(404).json({
+        message: "Please validate your identity using OTP",
+      });
+    }
+
+    if (!token.validateEmailVerificationToken(otp)) {
+      return res.status(400).json({
+        message: "Please provide a valid OTP",
+      });
+    }
+
+    user.isEmailVerified = true;
+    await user.save();
+
+    return res.status(200).json({
+      message: "Email verification successfull",
+    });
   } catch (error) {
     return res.status(500).json({
       message: "Error - Auth Module - Email Verification Controller",
