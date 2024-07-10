@@ -43,19 +43,19 @@ const tokenSchema = new mongoose.Schema({
 tokenSchema.pre("save", async function (next) {
   if (this.isModified("forgetPassword")) {
     const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS?.toString();
-    const salt = await bcrypt.genSalt(SALT_ROUNDS);
+    const salt = await bcrypt.genSalt(parseInt(SALT_ROUNDS));
     this.forgetPassword = await bcrypt.hash(this.forgetPassword, salt);
   }
 
   if (this.isModified("tfa")) {
     const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS?.toString();
-    const salt = await bcrypt.genSalt(SALT_ROUNDS);
+    const salt = await bcrypt.genSalt(parseInt(SALT_ROUNDS));
     this.tfa = await bcrypt.hash(this.tfa, salt);
   }
 
   if (this.isModified("emailVerification")) {
     const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS?.toString();
-    const salt = await bcrypt.genSalt(SALT_ROUNDS);
+    const salt = await bcrypt.genSalt(parseInt(SALT_ROUNDS));
     this.emailVerification = await bcrypt.hash(this.emailVerification, salt);
   }
 

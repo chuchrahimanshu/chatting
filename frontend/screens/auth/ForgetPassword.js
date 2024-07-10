@@ -58,6 +58,9 @@ const ForgetPassword = ({ navigation }) => {
           <Text style={styles.label}>
             Enter your 6 digit OTP <Text style={styles.required}>*</Text>
           </Text>
+          <Text style={styles.notiLabel}>
+            Check your registered email address
+          </Text>
           <View style={styles.otpContainer}>
             {otpFields.map((_, index) => (
               <OTPField

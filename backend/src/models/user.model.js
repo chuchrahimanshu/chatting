@@ -65,10 +65,10 @@ userSchema.pre("save", async function (next) {
   if (this.isModified("email")) {
     this.email = this.email.toLowerCase();
   }
-
+  console.log("I am in the backedn");
   if (this.isModified("password")) {
     const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS?.toString();
-    const salt = await bcrypt.genSalt(SALT_ROUNDS);
+    const salt = await bcrypt.genSalt(parseInt(SALT_ROUNDS));
     this.password = await bcrypt.hash(this.password, salt);
   }
 
@@ -92,7 +92,7 @@ userSchema.methods.generateAccessToken = async function () {
   );
 
   const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS?.toString();
-  const salt = await bcrypt.genSalt(SALT_ROUNDS);
+  const salt = await bcrypt.genSalt(parseInt(SALT_ROUNDS));
   return await bcrypt.hash(accessToken, salt);
 };
 userSchema.methods.generateRefreshToken = async function () {
@@ -107,7 +107,7 @@ userSchema.methods.generateRefreshToken = async function () {
   );
 
   const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS?.toString();
-  const salt = await bcrypt.genSalt(SALT_ROUNDS);
+  const salt = await bcrypt.genSalt(parseInt(SALT_ROUNDS));
   return await bcrypt.hash(refreshToken, salt);
 };
 

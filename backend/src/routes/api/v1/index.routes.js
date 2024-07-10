@@ -6,7 +6,7 @@ import authRouter from "./auth.routes.js";
 const router = express.Router();
 
 // Middleware Section
-router.use("/api", authRouter);
+router.use("/auth", authRouter);
 
 // Export Section
 export default router;

@@ -9,8 +9,12 @@ import {
 import { styles } from "../../styles/auth.styles";
 import { useState } from "react";
 import AuthHeader from "../../components/auth/AuthHeader";
+import { useDispatch } from "react-redux";
+import { signUp } from "../../redux/auth/auth.slice";
 
 const SignUp = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   const initialState = {
     firstName: "",
     lastName: "",
@@ -29,7 +33,7 @@ const SignUp = ({ navigation }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = async () => {
     const { firstName, lastName, email, password, confirmPassword } = formData;
 
     if (
@@ -50,6 +54,29 @@ const SignUp = ({ navigation }) => {
         "Passwords didn't matched!",
         "Password and confirm password must be same."
       );
+    }
+    const apiResult = await dispatch(
+      signUp({
+        bodyData: {
+          firstName,
+          lastName,
+          email,
+          password,
+          confirmPassword,
+        },
+      })
+    );
+
+    if (apiResult?.meta?.requestStatus === "fulfilled") {
+      setFormData(initialState);
+      Alert.alert(
+        "Sign Up Success!",
+        "You have successfully signed up and now redirecting to sign in"
+      );
+      navigation.navigate("SignIn");
+    }
+    if (apiResult?.meta?.requestStatus === "rejected") {
+      Alert.alert("Sign Up Failed!", apiResult.payload.message);
     }
   };
 

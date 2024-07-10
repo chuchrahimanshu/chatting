@@ -4,10 +4,23 @@ import "dotenv/config";
 import "./config/database.config.js";
 import "./config/nodemailer.config.js";
 import router from "./routes/index.routes.js";
+import morgan from "morgan";
+import cors from "cors";
 
 // Configuration Section
 const app = express();
 const PORT = process.env.PORT;
+
+// Middleware Section
+app.use(morgan("dev"));
+app.use(
+  cors({
+    origin: "http://192.168.29.231",
+    credentials: true,
+  })
+);
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Routing and Port Listening Section
 app.use("/", router);

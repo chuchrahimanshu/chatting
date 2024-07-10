@@ -6,7 +6,7 @@ import v1Router from "./v1/index.routes.js";
 const router = express.Router();
 
 // Middleware Section
-router.use("/api", v1Router);
+router.use("/v1", v1Router);
 
 // Export Section
 export default router;

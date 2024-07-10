@@ -94,7 +94,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   otpContainer: {
-    marginTop: 20,
+    marginTop: 30,
     marginBottom: 10,
     flexDirection: "row",
     justifyContent: "space-between",
