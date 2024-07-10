@@ -28,10 +28,6 @@ const tokenSchema = new mongoose.Schema({
     createdAt: {
       type: Date,
     },
-    status: {
-      type: Boolean,
-      default: false,
-    },
   },
   emailVerification: {
     token: {
@@ -39,10 +35,6 @@ const tokenSchema = new mongoose.Schema({
     },
     createdAt: {
       type: Date,
-    },
-    status: {
-      type: Boolean,
-      default: false,
     },
   },
 });

@@ -34,18 +34,13 @@ const userSchema = new mongoose.Schema(
         type: Date,
       },
     },
-    twoFactorAuthentication: {
-      token: {
-        type: String,
-      },
-      createdAt: {
-        type: Date,
-      },
-      isEnabled: {
-        type: Boolean,
-        deafult: false,
-      },
-      status: {},
+    isTFAEnabled: {
+      type: Boolean,
+      deafult: false,
+    },
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
     },
   },
   {

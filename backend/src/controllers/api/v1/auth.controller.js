@@ -63,7 +63,7 @@ export const signIn = async (req, res) => {
       });
     }
 
-    if (user.twoFactorAuthentication.isEnabled === true) {
+    if (user.isTFAEnabled === true) {
       // TODO: Send OTP Email Here
       return res.status(200).json({
         message: "Validate your OTP sent on registered email address",
@@ -119,7 +119,48 @@ export const signOut = async (req, res) => {
   }
 };
 
-// TODO: Verify Forget Password Token
+export const verifyForgetPasswordToken = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    if (!email?.trim() || !otp?.trim()) {
+      return res.status(200).json({
+        message: "Please provide all required details",
+      });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    const token = await Token.findOne({ user: user._id });
+    if (!token) {
+      return res.status(404).json({
+        message: "Please validate your identity using OTP",
+      });
+    }
+
+    if (!token.validateForgetPasswordToken(otp)) {
+      return res.status(400).json({
+        message: "Please provide a valid OTP",
+      });
+    }
+
+    token.forgetPassword.status = true;
+    await token.save();
+
+    return res.status(200).json({
+      message: "OTP verified successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error - Auth Module - Verify Forget Password Token Controller",
+      error: error,
+    });
+  }
+};
 
 export const changePassword = async (req, res) => {
   try {
