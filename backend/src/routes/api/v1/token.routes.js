@@ -4,7 +4,7 @@ import {
   emailVerification,
   forgetPassword,
   twoFactorAuthentication,
-} from "../../../controllers/api/v1/token.controller";
+} from "../../../controllers/api/v1/token.controller.js";
 
 // Configuration Section
 const router = express.Router();
