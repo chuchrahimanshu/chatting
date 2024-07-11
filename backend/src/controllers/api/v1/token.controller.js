@@ -19,7 +19,7 @@ export const forgetPassword = async (req, res) => {
       });
     }
 
-    const randomOTP = generateSixDigitOTPToken();
+    const randomOTP = await generateSixDigitOTPToken();
 
     const existingToken = await Token.findOne({ user: user._id });
     if (!existingToken) {
@@ -31,6 +31,10 @@ export const forgetPassword = async (req, res) => {
       token.forgetPassword.createdAt = new Date(Date.now());
       token.forgetPassword.status = false;
       await token.save();
+    } else if (!existingToken.forgetPassword.createdAt) {
+      existingToken.forgetPassword.token = randomOTP;
+      existingToken.forgetPassword.createdAt = new Date(Date.now());
+      existingToken.forgetPassword.status = false;
     } else {
       const tokenCreatedAt = existingToken.forgetPassword.createdAt;
       const validDate = new Date(tokenCreatedAt.getTime() + 2 * 60 * 1000);
@@ -47,7 +51,6 @@ export const forgetPassword = async (req, res) => {
       existingToken.forgetPassword.status = false;
       await existingToken.save();
     }
-
     const emailResponse = await sendMail(
       user.email,
       process.env.DEFAULT_EMAIL,
@@ -55,15 +58,19 @@ export const forgetPassword = async (req, res) => {
       randomOTP
     );
 
-    console.log(emailResponse);
+    if (emailResponse.accepted.length === 0) {
+      return res.status(500).json({
+        message:
+          "Something went wrong, OTP not generated. Please try again later",
+      });
+    }
 
     return res.status(200).json({
       message: "OTP sent on registered email address",
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Error - Token Module - Forget Password Controller",
-      error: error,
+      message: error.message,
     });
   }
 };
@@ -84,7 +91,7 @@ export const twoFactorAuthentication = async (req, res) => {
       });
     }
 
-    const randomOTP = generateSixDigitOTPToken();
+    const randomOTP = await generateSixDigitOTPToken();
 
     const existingToken = await Token.findOne({ user: user._id });
     if (!existingToken) {
@@ -95,6 +102,9 @@ export const twoFactorAuthentication = async (req, res) => {
       token.tfa.token = randomOTP;
       token.tfa.createdAt = new Date(Date.now());
       await token.save();
+    } else if (!existingToken.tfa.createdAt) {
+      existingToken.tfa.token = randomOTP;
+      existingToken.tfa.createdAt = new Date(Date.now());
     } else {
       const tokenCreatedAt = existingToken.tfa.createdAt;
       const validDate = new Date(tokenCreatedAt.getTime() + 2 * 60 * 1000);
@@ -118,7 +128,12 @@ export const twoFactorAuthentication = async (req, res) => {
       randomOTP
     );
 
-    console.log(emailResponse);
+    if (emailResponse.accepted.length === 0) {
+      return res.status(500).json({
+        message:
+          "Something went wrong, OTP not generated. Please try again later",
+      });
+    }
 
     return res.status(200).json({
       message: "OTP sent on registered email address",
@@ -147,7 +162,7 @@ export const emailVerification = async (req, res) => {
       });
     }
 
-    const randomOTP = generateSixDigitOTPToken();
+    const randomOTP = await generateSixDigitOTPToken();
 
     const existingToken = await Token.findOne({ user: user._id });
     if (!existingToken) {
@@ -158,6 +173,9 @@ export const emailVerification = async (req, res) => {
       token.emailVerification.token = randomOTP;
       token.emailVerification.createdAt = new Date(Date.now());
       await token.save();
+    } else if (!existingToken.emailVerification.createdAt) {
+      existingToken.emailVerification.token = randomOTP;
+      existingToken.emailVerification.createdAt = new Date(Date.now());
     } else {
       const tokenCreatedAt = existingToken.emailVerification.createdAt;
       const validDate = new Date(tokenCreatedAt.getTime() + 2 * 60 * 1000);
@@ -181,7 +199,12 @@ export const emailVerification = async (req, res) => {
       randomOTP
     );
 
-    console.log(emailResponse);
+    if (emailResponse.accepted.length === 0) {
+      return res.status(500).json({
+        message:
+          "Something went wrong, OTP not generated. Please try again later",
+      });
+    }
 
     return res.status(200).json({
       message: "OTP sent on registered email address",

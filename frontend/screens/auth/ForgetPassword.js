@@ -4,7 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import OTPField from "../../components/forms/OTPField";
 import AuthHeader from "../../components/auth/AuthHeader";
 
-const ForgetPassword = ({ navigation }) => {
+const ForgetPassword = ({ route, navigation }) => {
+  const { email } = route.params;
+
+  console.log(email);
+
   const inputRef = useRef(null);
   const otpFields = new Array(6).fill("");
 
@@ -47,6 +51,12 @@ const ForgetPassword = ({ navigation }) => {
   };
 
   useEffect(() => {
+    if (!email) {
+      Alert.alert("Please enter a valid email address");
+      navigation.navigate("SignIn");
+      return;
+    }
+
     inputRef.current?.focus();
   }, [activeOTPIndex]);
 

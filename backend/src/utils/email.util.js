@@ -5,8 +5,10 @@ export const sendMail = async (from, to, subject, text) => {
     from: from,
     to: to,
     subject: subject,
-    text: text,
+    html: `<h1>${text}</h1>`,
   });
+
+  console.log("email res");
 
   return emailResponse;
 };
