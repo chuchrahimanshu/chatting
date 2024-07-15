@@ -19,9 +19,17 @@ const signIn = async ({ bodyData }) => {
 //   return response.data;
 // };
 
+const verifyForgetPasswordOTP = async ({ bodyData }) => {
+  const response = await axios.post(
+    AUTH_URL + `/verify/token/forget-password`,
+    bodyData
+  );
+  return response.data;
+};
 const authService = {
   signUp,
   signIn,
+  verifyForgetPasswordOTP,
 };
 
 export default authService;

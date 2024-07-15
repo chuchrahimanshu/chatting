@@ -39,6 +39,23 @@ export const signIn = createAsyncThunk(
   }
 );
 
+export const verifyForgetPasswordOTP = createAsyncThunk(
+  "auth/verifyForgetPasswordOTP",
+  async (apiData, thunkAPI) => {
+    try {
+      return await authService.verifyForgetPasswordOTP(apiData);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,

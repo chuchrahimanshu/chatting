@@ -44,19 +44,19 @@ tokenSchema.pre("save", async function (next) {
   if (this.isModified("forgetPassword")) {
     const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS?.toString();
     const salt = await bcrypt.genSalt(parseInt(SALT_ROUNDS));
-    this.forgetPassword = await bcrypt.hash(this.forgetPassword, salt);
+    this.forgetPassword.token = await bcrypt.hash(this.forgetPassword.token, salt);
   }
 
   if (this.isModified("tfa")) {
     const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS?.toString();
     const salt = await bcrypt.genSalt(parseInt(SALT_ROUNDS));
-    this.tfa = await bcrypt.hash(this.tfa, salt);
+    this.tfa.token = await bcrypt.hash(this.tfa.token, salt);
   }
 
   if (this.isModified("emailVerification")) {
     const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS?.toString();
     const salt = await bcrypt.genSalt(parseInt(SALT_ROUNDS));
-    this.emailVerification = await bcrypt.hash(this.emailVerification, salt);
+    this.emailVerification.token = await bcrypt.hash(this.emailVerification.token, salt);
   }
 
   next();
@@ -64,13 +64,13 @@ tokenSchema.pre("save", async function (next) {
 
 // Schema Methods Section
 tokenSchema.methods.validateForgetPasswordToken = async function (token) {
-  return await bcrypt.compare(token, this.forgetPassword);
+  return await bcrypt.compare(token, this.forgetPassword.token);
 };
 tokenSchema.methods.validateTFAToken = async function (token) {
-  return await bcrypt.compare(token, this.tfa);
+  return await bcrypt.compare(token, this.tfa.token);
 };
 tokenSchema.methods.validateEmailVerificationToken = async function (token) {
-  return await bcrypt.compare(token, this.emailVerification);
+  return await bcrypt.compare(token, this.emailVerification.token);
 };
 
 // Exporting and Creating Model Section

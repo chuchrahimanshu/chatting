@@ -3,11 +3,11 @@ import { styles } from "../../styles/auth.styles";
 import { useEffect, useRef, useState } from "react";
 import OTPField from "../../components/forms/OTPField";
 import AuthHeader from "../../components/auth/AuthHeader";
+import { useDispatch } from "react-redux";
+import { verifyForgetPasswordOTP } from "../../redux/auth/auth.slice";
 
 const ForgetPassword = ({ route, navigation }) => {
-  const { email } = route.params;
-
-  console.log(email);
+  const dispatch = useDispatch();
 
   const inputRef = useRef(null);
   const otpFields = new Array(6).fill("");
@@ -15,14 +15,33 @@ const ForgetPassword = ({ route, navigation }) => {
   const [activeOTPIndex, setActiveOTPIndex] = useState(0);
   const [OTP, setOTP] = useState([...otpFields]);
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = async () => {
     let OTPToken = "";
     OTP.map((digit) => (OTPToken = OTPToken + digit));
 
     if (OTPToken.length !== 6) {
       return Alert.alert("Invalid OTP", "Please provide a valid 6 digit OTP");
     }
-    navigation.navigate("ChangePassword");
+
+    const apiResult = await dispatch(
+      verifyForgetPasswordOTP({
+        bodyData: {
+          email: route.params.email,
+          otp: OTPToken,
+        },
+      })
+    );
+
+    if (apiResult?.meta?.requestStatus === "fulfilled") {
+      Alert.alert(
+        "OTP Verified!",
+        "You have successfully verified the OTP and now redirecting to change password"
+      );
+      navigation.navigate("ChangePassword");
+    }
+    if (apiResult?.meta?.requestStatus === "rejected") {
+      Alert.alert("Sign Up Failed!", apiResult.payload);
+    }
   };
 
   const handleSignInNavigation = () => {
@@ -51,7 +70,7 @@ const ForgetPassword = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    if (!email) {
+    if (!route.params.email) {
       Alert.alert("Please enter a valid email address");
       navigation.navigate("SignIn");
       return;

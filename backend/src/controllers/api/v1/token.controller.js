@@ -33,8 +33,9 @@ export const forgetPassword = async (req, res) => {
       await token.save();
     } else if (!existingToken.forgetPassword.createdAt) {
       existingToken.forgetPassword.token = randomOTP;
-      existingToken.forgetPassword.createdAt = new Date(Date.now());
+      existingToken.forgetPassword.createdAt = Date.now();
       existingToken.forgetPassword.status = false;
+      await existingToken.save();
     } else {
       const tokenCreatedAt = existingToken.forgetPassword.createdAt;
       const validDate = new Date(tokenCreatedAt.getTime() + 2 * 60 * 1000);

@@ -142,7 +142,10 @@ export const verifyForgetPasswordToken = async (req, res) => {
       });
     }
 
-    if (!token.validateForgetPasswordToken(otp)) {
+    const isTokenCorrect = await token.validateForgetPasswordToken(otp);
+    console.log(isTokenCorrect, !isTokenCorrect);
+
+    if (!isTokenCorrect) {
       return res.status(400).json({
         message: "Please provide a valid OTP",
       });
@@ -166,8 +169,7 @@ export const verifyForgetPasswordToken = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Error - Auth Module - Verify Forget Password Token Controller",
-      error: error,
+      message: error.message,
     });
   }
 };
