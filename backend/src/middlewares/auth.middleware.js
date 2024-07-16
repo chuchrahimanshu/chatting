@@ -1,4 +1,5 @@
 import JWT from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 export const isAuthenticated = async (req, res, next) => {
   try {
@@ -15,7 +16,6 @@ export const isAuthenticated = async (req, res, next) => {
         message: "Access token missing in bearer token",
       });
     }
-
     const user = await JWT.verify(
       accessToken,
       process.env.JWT_ACCESS_TOKEN_SECRET
@@ -25,8 +25,7 @@ export const isAuthenticated = async (req, res, next) => {
     next();
   } catch (error) {
     return res.status(500).json({
-      message: "Error - isAuthenticated Middleware",
-      error: error,
+      message: error.message,
     });
   }
 };

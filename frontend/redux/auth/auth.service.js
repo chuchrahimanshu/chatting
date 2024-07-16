@@ -13,11 +13,14 @@ const signIn = async ({ bodyData }) => {
   return response.data;
 };
 
-// TODO: Create Home Page and add Sign Out Button
-// const signOut = async () => {
-//   const response = await axios.get(AUTH_URL + `/sign-out`);
-//   return response.data;
-// };
+const signOut = async ({ bodyData }) => {
+  const response = await axios.get(AUTH_URL + `/sign-out`, {
+    headers: {
+      'Authorization': `Bearer ${bodyData.accessToken}`
+    }
+  });
+  return response.data;
+};
 
 const verifyForgetPasswordOTP = async ({ bodyData }) => {
   const response = await axios.post(
@@ -39,7 +42,8 @@ const authService = {
   signUp,
   signIn,
   verifyForgetPasswordOTP,
-  changePassword
+  changePassword,
+  signOut
 };
 
 export default authService;

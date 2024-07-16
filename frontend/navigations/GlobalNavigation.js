@@ -3,7 +3,7 @@ import Home from "../screens/global/Home";
 
 const Stack = createNativeStackNavigator();
 
-const GlobalNavigation = () => {
+const GlobalNavigation = ({ setIsAuthenticated }) => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -11,11 +11,12 @@ const GlobalNavigation = () => {
       }}>
       <Stack.Screen
         name="Home"
-        component={Home}
         options={{
           title: "Home",
         }}
-      />
+      >
+        {() => <Home setIsAuthenticated={setIsAuthenticated} />}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 };

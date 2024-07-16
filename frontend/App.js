@@ -6,6 +6,8 @@ import { store } from "./redux/store";
 import axios from "axios";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import GlobalNavigation from "./navigations/GlobalNavigation";
 SplashScreen.preventAutoHideAsync();
 axios.defaults.withCredentials = true;
 
@@ -15,8 +17,10 @@ export default function App() {
   useEffect(() => {
     const prepare = async () => {
       try {
-        // TODO: Add Logic for fetching accessToken from async storage
-        // TODO: Make an API call to check weather user is authenticated or not
+        const accessToken = await AsyncStorage.getItem('token');
+        if (accessToken) {
+          setIsAuthenticated(true);
+        }
       } catch (e) {
         console.warn(e);
       } finally {
@@ -31,7 +35,7 @@ export default function App() {
       <StatusBar />
       <Provider store={store}>
         <NavigationContainer>
-          <AuthNavigation />
+          {isAuthenticated ? <GlobalNavigation setIsAuthenticated={setIsAuthenticated} /> : <AuthNavigation setIsAuthenticated={setIsAuthenticated} />}
         </NavigationContainer>
       </Provider>
     </>

@@ -8,7 +8,7 @@ import ChangePassword from "../screens/auth/ChangePassword";
 
 const Stack = createNativeStackNavigator();
 
-const AuthNavigation = () => {
+const AuthNavigation = ({ setIsAuthenticated }) => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -23,11 +23,12 @@ const AuthNavigation = () => {
       />
       <Stack.Screen
         name="SignIn"
-        component={SignIn}
         options={{
           title: "Sign In",
         }}
-      />
+      >
+        {() => <SignIn setIsAuthenticated={setIsAuthenticated} />}
+      </Stack.Screen>
       <Stack.Screen
         name="ForgetPassword"
         component={ForgetPassword}

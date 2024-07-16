@@ -13,8 +13,9 @@ import { useDispatch } from "react-redux";
 import { signIn } from "../../redux/auth/auth.slice";
 import { generateForgetPasswordToken } from "../../redux/token/token.slice";
 import SendingOTP from "../../components/auth/SendingOTP";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SignIn = ({ navigation }) => {
+const SignIn = ({ navigation, setIsAuthenticated }) => {
   const dispatch = useDispatch();
 
   const initialState = {
@@ -49,13 +50,12 @@ const SignIn = ({ navigation }) => {
 
     if (apiResult?.meta?.requestStatus === "fulfilled") {
       setFormData(initialState);
+      await AsyncStorage.setItem('token', apiResult.payload.accessToken);
       Alert.alert(
         "Sign In Success!",
         "You have successfully signed in and now redirecting to home"
       );
-
-      // TODO: Add Home Page Redirection Here
-      // TODO: Also add data to async storage
+      setIsAuthenticated(true);
     }
     if (apiResult?.meta?.requestStatus === "rejected") {
       Alert.alert("Sign Up Failed!", apiResult.payload);

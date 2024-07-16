@@ -143,7 +143,6 @@ export const verifyForgetPasswordToken = async (req, res) => {
     }
 
     const isTokenCorrect = await token.validateForgetPasswordToken(otp);
-    console.log(isTokenCorrect, !isTokenCorrect);
 
     if (!isTokenCorrect) {
       return res.status(400).json({

@@ -23,7 +23,7 @@ router.route("/change-password").post(changePassword);
 // Authenticated Routes Section
 router.route("/tfa/session").post(isAuthenticated, createTFASession);
 router.route("/verify/email").post(isAuthenticated, emailVerification);
-router.route("/sign-out").get(signOut);
+router.route("/sign-out").get(isAuthenticated, signOut);
 
 // Export Section
 export default router;
