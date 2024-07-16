@@ -8,9 +8,13 @@ import {
 } from "react-native";
 import { styles } from "../../styles/auth.styles";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import AuthHeader from "../../components/auth/AuthHeader";
+import { changePassword } from "../../redux/auth/auth.slice";
 
-const ChangePassword = ({ navigation }) => {
+const ChangePassword = ({ route, navigation }) => {
+  const dispatch = useDispatch();
+
   const initialState = {
     password: "",
     confirmPassword: "",
@@ -21,7 +25,7 @@ const ChangePassword = ({ navigation }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = async () => {
     const { password, confirmPassword } = formData;
 
     if (!password?.trim() || !confirmPassword?.trim()) {
@@ -36,6 +40,24 @@ const ChangePassword = ({ navigation }) => {
         "Password didn't match!",
         "Password and confirm password must be same."
       );
+    }
+
+    const apiResult = await dispatch(changePassword({
+      bodyData: {
+        email: route.params.email,
+        password
+      }
+    }));
+
+    if (apiResult?.meta?.requestStatus === "fulfilled") {
+      Alert.alert(
+        "Password Updated!",
+        "You have successfully changed the password"
+      );
+      navigation.navigate("SignIn");
+    }
+    if (apiResult?.meta?.requestStatus === "rejected") {
+      Alert.alert("Failed!", apiResult.payload);
     }
   };
 

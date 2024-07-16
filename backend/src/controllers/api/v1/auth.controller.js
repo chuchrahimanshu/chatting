@@ -90,7 +90,7 @@ export const signIn = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Error - Auth Module - Sign In Controller",
+      message: error.message,
       error: error,
     });
   }
@@ -113,7 +113,7 @@ export const signOut = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Error - Auth Module - Sign Out Controller",
+      message: error.message,
       error: error,
     });
   }
@@ -177,6 +177,7 @@ export const verifyForgetPasswordToken = async (req, res) => {
 export const changePassword = async (req, res) => {
   try {
     const { email, password } = req.body;
+
     if (!email?.trim() || !password?.trim()) {
       return res.status(400).json({
         message: "Please provide all required details",
@@ -211,7 +212,7 @@ export const changePassword = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Error - Auth Module - Change Password Controller",
+      message: error.message,
       error: error,
     });
   }
@@ -269,7 +270,7 @@ export const createTFASession = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Error - Auth Module - Verify TFA Controller",
+      message: error.message,
       error: error,
     });
   }
@@ -323,7 +324,7 @@ export const emailVerification = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Error - Auth Module - Email Verification Controller",
+      message: error.message,
       error: error,
     });
   }

@@ -76,7 +76,7 @@ const SignUp = ({ navigation }) => {
       navigation.navigate("SignIn");
     }
     if (apiResult?.meta?.requestStatus === "rejected") {
-      Alert.alert("Sign Up Failed!", apiResult.payload.message);
+      Alert.alert("Sign Up Failed!", apiResult.payload);
     }
   };
 

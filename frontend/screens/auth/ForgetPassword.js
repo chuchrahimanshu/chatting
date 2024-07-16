@@ -37,7 +37,7 @@ const ForgetPassword = ({ route, navigation }) => {
         "OTP Verified!",
         "You have successfully verified the OTP and now redirecting to change password"
       );
-      navigation.navigate("ChangePassword");
+      navigation.navigate("ChangePassword", { email: route.params.email });
     }
     if (apiResult?.meta?.requestStatus === "rejected") {
       Alert.alert("Sign Up Failed!", apiResult.payload);

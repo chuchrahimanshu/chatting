@@ -56,6 +56,23 @@ export const verifyForgetPasswordOTP = createAsyncThunk(
   }
 );
 
+export const changePassword = createAsyncThunk(
+  "auth/changePassword",
+  async (apiData, thunkAPI) => {
+    try {
+      return await authService.changePassword(apiData);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,

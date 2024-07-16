@@ -26,10 +26,20 @@ const verifyForgetPasswordOTP = async ({ bodyData }) => {
   );
   return response.data;
 };
+
+const changePassword = async ({ bodyData }) => {
+  const response = await axios.post(
+    AUTH_URL + `/change-password`,
+    bodyData
+  );
+  return response.data;
+};
+
 const authService = {
   signUp,
   signIn,
   verifyForgetPasswordOTP,
+  changePassword
 };
 
 export default authService;
