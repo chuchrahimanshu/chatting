@@ -15,7 +15,7 @@ const GlobalNavigation = ({ setIsAuthenticated }) => {
           title: "Home",
         }}
       >
-        {() => <Home setIsAuthenticated={setIsAuthenticated} />}
+        {(props) => <Home {...props} setIsAuthenticated={setIsAuthenticated} />}
       </Stack.Screen>
     </Stack.Navigator>
   );

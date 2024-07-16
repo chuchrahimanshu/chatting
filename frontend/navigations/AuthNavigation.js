@@ -11,6 +11,7 @@ const Stack = createNativeStackNavigator();
 const AuthNavigation = ({ setIsAuthenticated }) => {
   return (
     <Stack.Navigator
+      initialRouteName="SignIn"
       screenOptions={{
         headerShown: false,
       }}>
@@ -27,7 +28,7 @@ const AuthNavigation = ({ setIsAuthenticated }) => {
           title: "Sign In",
         }}
       >
-        {() => <SignIn setIsAuthenticated={setIsAuthenticated} />}
+        {(props) => <SignIn {...props} setIsAuthenticated={setIsAuthenticated} />}
       </Stack.Screen>
       <Stack.Screen
         name="ForgetPassword"
