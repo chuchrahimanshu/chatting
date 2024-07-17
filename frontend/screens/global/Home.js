@@ -1,7 +1,8 @@
-import { Pressable, SafeAreaView, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { useState } from "react";
 import Header from "../../components/home/Header";
 import ChatMenu from "../../components/home/ChatMenu";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Home = ({ setIsAuthenticated }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -11,12 +12,14 @@ const Home = ({ setIsAuthenticated }) => {
       <Pressable
         style={styles.pressContainer}
         onPress={() => setShowMenu(false)}>
-        <Header
-          setShowMenu={setShowMenu}
-          showMenu={showMenu}
-          setIsAuthenticated={setIsAuthenticated}
-        />
-        <ChatMenu setShowMenu={setShowMenu} showMenu={showMenu} />
+        <View style={styles.innerContainer}>
+          <Header
+            setShowMenu={setShowMenu}
+            showMenu={showMenu}
+            setIsAuthenticated={setIsAuthenticated}
+          />
+          <ChatMenu setShowMenu={setShowMenu} showMenu={showMenu} />
+        </View>
       </Pressable>
     </SafeAreaView>
   );
@@ -24,11 +27,14 @@ const Home = ({ setIsAuthenticated }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 25,
     alignItems: "center",
     flex: 1,
-    width: "95%",
+    width: "100%",
     alignSelf: "center",
+    backgroundColor: "white",
+  },
+  innerContainer: {
+    width: "95%",
   },
   pressContainer: {
     flex: 1,

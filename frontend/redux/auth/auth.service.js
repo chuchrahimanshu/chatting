@@ -16,8 +16,8 @@ const signIn = async ({ bodyData }) => {
 const signOut = async ({ bodyData }) => {
   const response = await axios.get(AUTH_URL + `/sign-out`, {
     headers: {
-      'Authorization': `Bearer ${bodyData.accessToken}`
-    }
+      Authorization: `Bearer ${bodyData.accessToken}`,
+    },
   });
   return response.data;
 };
@@ -31,10 +31,7 @@ const verifyForgetPasswordOTP = async ({ bodyData }) => {
 };
 
 const changePassword = async ({ bodyData }) => {
-  const response = await axios.post(
-    AUTH_URL + `/change-password`,
-    bodyData
-  );
+  const response = await axios.post(AUTH_URL + `/change-password`, bodyData);
   return response.data;
 };
 
@@ -43,7 +40,7 @@ const authService = {
   signIn,
   verifyForgetPasswordOTP,
   changePassword,
-  signOut
+  signOut,
 };
 
 export default authService;

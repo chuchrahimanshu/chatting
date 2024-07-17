@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Icons from "@expo/vector-icons/Ionicons";
 import User from "../../assets/user.jpg";
 import { useNavigation } from "@react-navigation/native";
@@ -22,6 +22,10 @@ const Header = () => {
           />
         </Pressable>
         <Image source={User} style={styles.user} />
+        <View style={styles.userTextContainer}>
+          <Text style={styles.username}>Himanshu Chuchra</Text>
+          <Text style={styles.usernoti}>Typing...</Text>
+        </View>
       </View>
       <View>
         <Pressable>
@@ -35,11 +39,11 @@ const Header = () => {
 const styles = StyleSheet.create({
   header: {
     height: 60,
-    marginTop: 45,
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    zIndex: 5,
   },
   headerLeftSection: {
     flexDirection: "row",
@@ -52,6 +56,14 @@ const styles = StyleSheet.create({
     maxHeight: 40,
     maxWidth: 40,
     borderRadius: 100,
+    marginRight: 6,
+  },
+  username: {
+    fontSize: 17,
+    fontWeight: "500",
+  },
+  usernoti: {
+    fontSize: 12,
   },
 });
 

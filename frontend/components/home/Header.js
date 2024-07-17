@@ -78,9 +78,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     position: "relative",
-    maxHeight: 90,
+    maxHeight: 60,
+    paddingBottom: 10,
     zIndex: 50,
     paddingHorizontal: 10,
+    backgroundColor: "white",
   },
   logo: {
     fontSize: 20,
@@ -93,7 +95,7 @@ const styles = StyleSheet.create({
   },
   userMenu: {
     position: "absolute",
-    top: 75,
+    top: 50,
     right: 5,
     backgroundColor: "#dddddd",
     height: "auto",
