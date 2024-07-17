@@ -1,7 +1,7 @@
 import { Pressable, SafeAreaView, StyleSheet } from "react-native";
 import { useState } from "react";
 import Header from "../../components/home/Header";
-import Chat from "../../components/home/Chat";
+import ChatMenu from "../../components/home/ChatMenu";
 
 const Home = ({ setIsAuthenticated }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -16,7 +16,7 @@ const Home = ({ setIsAuthenticated }) => {
           showMenu={showMenu}
           setIsAuthenticated={setIsAuthenticated}
         />
-        <Chat setShowMenu={setShowMenu} showMenu={showMenu} />
+        <ChatMenu setShowMenu={setShowMenu} showMenu={showMenu} />
       </Pressable>
     </SafeAreaView>
   );

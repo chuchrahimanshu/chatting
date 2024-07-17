@@ -2,12 +2,20 @@ import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native";
 import User from "../../assets/user.jpg";
+import { useNavigation } from "@react-navigation/native";
 
-const Chat = () => {
+const ChatMenu = () => {
+  const navigation = useNavigation();
+
+  const handleChatPressed = () => {
+    navigation.navigate("Chat");
+  };
+
   return (
     <ScrollView>
       <Pressable
-        style={({ pressed }) => [pressed ? styles.chatBoxPressed : null]}>
+        style={({ pressed }) => [pressed ? styles.chatBoxPressed : null]}
+        onPress={handleChatPressed}>
         <View style={styles.chatBox}>
           <View style={styles.chatImageContainer}>
             <Image style={styles.chatImage} source={User} />
@@ -32,7 +40,8 @@ const Chat = () => {
         </View>
       </Pressable>
       <Pressable
-        style={({ pressed }) => [pressed ? styles.chatBoxPressed : null]}>
+        style={({ pressed }) => [pressed ? styles.chatBoxPressed : null]}
+        onPress={handleChatPressed}>
         <View style={styles.chatBox}>
           <View style={styles.chatImageContainer}>
             <Image style={styles.chatImage} source={User} />
@@ -112,4 +121,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Chat;
+export default ChatMenu;
