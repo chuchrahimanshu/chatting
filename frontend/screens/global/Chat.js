@@ -1,7 +1,6 @@
 import {
-  KeyboardAvoidingView,
+  Image,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -11,6 +10,7 @@ import Header from "../../components/chat/Header";
 import Entypo from "react-native-vector-icons/Entypo";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import User from "../../assets/user.jpg";
 
 const Chat = () => {
   return (
@@ -19,7 +19,46 @@ const Chat = () => {
         <View style={styles.headerContainer}>
           <Header />
         </View>
-        <View style={styles.chatContainer}></View>
+        <View style={styles.chatContainer}>
+          <View style={styles.chatLeftContainer}>
+            <View style={styles.cornerEffect}>
+              <View style={styles.diagonalCutLeft} />
+            </View>
+            <View style={styles.chatBoxLeft}>
+              {/* <View style={styles.chatTopBoxContainer}>
+              <Image source={User} style={styles.userImage} />
+              <View style={styles.chatTopBox}>
+                <Text style={styles.chatBoxUsername}>Himanshu Chuchra</Text>
+                <Text style={styles.chatBoxTime}>9:24 PM</Text>
+              </View>
+            </View> */}
+              <Text style={styles.chatBoxText}>
+                a book or other written or printed work, regarded in terms of
+                its content rather than its physical form.
+              </Text>
+              <Text style={styles.chatBoxTime}>9:24 AM</Text>
+            </View>
+          </View>
+          <View style={styles.chatRightContainer}>
+            <View style={styles.chatBoxRight}>
+              {/* <View style={styles.chatTopBoxContainer}>
+              <Image source={User} style={styles.userImage} />
+              <View style={styles.chatTopBox}>
+                <Text style={styles.chatBoxUsername}>Himanshu Chuchra</Text>
+                <Text style={styles.chatBoxTime}>9:24 PM</Text>
+              </View>
+            </View> */}
+              <Text style={styles.chatBoxText}>
+                a book or other written or printed work, regarded in terms of
+                its content rather than its physical form.
+              </Text>
+              <Text style={styles.chatBoxTime}>9:24 AM</Text>
+            </View>
+            <View style={styles.cornerEffect}>
+              <View style={styles.diagonalCutRight} />
+            </View>
+          </View>
+        </View>
         <View style={styles.chatWriting}>
           <View style={styles.chatWritingBox}>
             <View style={styles.chatWritingLeft}>
@@ -56,8 +95,17 @@ const styles = StyleSheet.create({
   },
   chatContainer: {
     paddingHorizontal: 8,
+    paddingVertical: 20,
     height: "100%",
     backgroundColor: "#c9c9c9",
+    gap: 12,
+  },
+  chatLeftContainer: {
+    flexDirection: "row",
+  },
+  chatRightContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
   },
   chatWriting: {
     width: "98%",
@@ -87,8 +135,74 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 4,
   },
-  avoidingView: {
-    width: "100%",
+  userImage: {
+    height: 40,
+    width: 40,
+    borderRadius: 50,
+    zIndex: 10,
+    marginRight: 10,
+  },
+  chatBoxLeft: {
+    backgroundColor: "white",
+    width: "auto",
+    maxWidth: 280,
+    paddingVertical: 8,
+    paddingHorizontal: 11,
+    borderTopEndRadius: 10,
+    borderBottomEndRadius: 10,
+    borderBottomStartRadius: 10,
+  },
+  chatBoxRight: {
+    backgroundColor: "white",
+    width: "auto",
+    maxWidth: 280,
+    paddingVertical: 8,
+    paddingHorizontal: 11,
+    borderTopStartRadius: 10,
+    borderBottomEndRadius: 10,
+    borderBottomStartRadius: 10,
+  },
+  chatTopBoxContainer: {
+    flexDirection: "row",
+  },
+  chatBoxUsername: {
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  chatBoxTime: {
+    fontSize: 12,
+    textAlign: "right",
+  },
+  chatBoxText: {
+    fontSize: 16,
+    lineHeight: 21,
+  },
+  cornerEffect: {
+    width: 18,
+    height: 19,
+    overflow: "hidden",
+  },
+  diagonalCutLeft: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "200%",
+    height: "200%",
+    backgroundColor: "white",
+    transform: [{ rotate: "45deg" }],
+    top: -32,
+  },
+  diagonalCutRight: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 0,
+    height: 0,
+    borderStyle: "solid",
+    borderLeftWidth: 15,
+    borderBottomWidth: 15,
+    borderLeftColor: "white",
+    borderBottomColor: "transparent",
   },
 });
 
